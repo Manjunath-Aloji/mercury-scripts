@@ -61,7 +61,6 @@ def create_model(model_data):
 
 
 def prepare_fields(fields, model_name, model_id):
-    # Attach model info to each field dict
     for field in fields:
         field['modelName'] = model_name
         field['model'] = model_id
