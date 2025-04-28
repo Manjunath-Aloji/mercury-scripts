@@ -47,14 +47,16 @@ def create_model(model_data):
     mutation = '''
     mutation CreateModel($input: ModelInput!) {
       createModel(input: $input) {
-        id
+        id,
+        name
       }
     }
     '''
     variables = {"input": input_data}
     data = graphql_request(mutation, variables)
     model_id = data['createModel']['id']
-    print(f"✅ Model created: {model_id}")
+    model_name = data['createModel']['name']
+    print(f"✅ Model created: {model_name} with id - {model_id}")
     return model_id
 
 
@@ -71,14 +73,16 @@ def create_field(field):
     mutation = '''
     mutation CreateModelField($input: ModelFieldInput!) {
       createModelField(input: $input) {
-        id
+        id,
+        name
       }
     }
     '''
     variables = {"input": field}
     data = graphql_request(mutation, variables)
     field_id = data['createModelField']['id']
-    print(f"✅ Field created: {field['name']} with id {field_id}")
+    field_name = data['createModelField']['name']
+    print(f"✅ Field created: {field_name} with id - {field_id}")
     return field_id
 
 
