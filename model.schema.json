@@ -1,0 +1,51 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "name": { "type": "string" },
+    "label": { "type": "string" },
+    "description": { "type": "string" },
+    "recordKey": { "type": "string" },
+    "managed": { "type": "boolean" },
+    "fields": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "label": { "type": "string" },
+          "type": {
+            "type": "string",
+            "enum": [
+              "string",
+              "number",
+              "boolean",
+              "date",
+              "float",
+              "virtual",
+              "enum",
+              "relationship"
+            ]
+          },
+          "enumType": { "type": ["number", "string"] },
+          "enumValues": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "managed": { "type": "boolean" },
+          "many": { "type": "boolean" },
+          "ref": { "type": "string" },
+          "localField": { "type": "string" },
+          "foreignField": { "type": "string" },
+          "managedBy": { "type": "string" },
+          "default": { "type": "string" },
+          "immutable": { "type": "boolean" },
+          "required": { "type": "boolean" },
+          "unique": { "type": "boolean" }
+        },
+        "required": ["name", "label", "type"]
+      }
+    }
+  },
+  "required": ["name", "label"]
+}
