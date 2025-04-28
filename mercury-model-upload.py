@@ -23,7 +23,7 @@ def graphql_request(mutation, variables):
     except ValueError:
         raise Exception(f"Invalid JSON response: {response.text}")
 
-    print(json.dumps(result, indent=2))  # Debug output
+    # print(json.dumps(result, indent=2))
 
     if 'errors' in result:
         raise Exception(f"GraphQL error: {result['errors']}")
