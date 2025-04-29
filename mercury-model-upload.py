@@ -7,9 +7,38 @@ HEADERS = {
 }
 
 MODEL_FILES = [
+    'user-model.json',
     'institute-model.json',
     'class-model.json',
 ]
+
+USER_MODEL_ID = None
+
+def get_user_model_id():
+    global USER_MODEL_ID
+    if USER_MODEL_ID is None:
+
+        variables = {"where": {"name" : { "is": "User" }}}
+
+        mutation = '''
+            query ListModels($where: whereModelInput) {
+                listModels(where: $where) {
+                    docs {
+                        name
+                        id
+                    }
+                }
+            }
+        '''
+        data = graphql_request(mutation, variables)
+        USER_MODEL_ID = data['listModels']['docs'][0]['id'] if data['listModels']['docs'] else None
+    return USER_MODEL_ID
+
+def is_user_model(model_name):
+    is_user_model = model_name in ['user', 'User', 'UserModel' 'Users', 'users']
+    if is_user_model:
+        get_user_model_id()
+    return is_user_model
 
 def graphql_request(mutation, variables):
     payload = {
@@ -30,11 +59,9 @@ def graphql_request(mutation, variables):
 
     return result['data']
 
-
 def load_json(filepath):
     with open(filepath, 'r') as f:
         return json.load(f)
-
 
 def create_model(model_data):
     input_data = {
@@ -59,7 +86,6 @@ def create_model(model_data):
     print(f"✅ Model created: {model_name} with id - {model_id}")
     return model_id
 
-
 def prepare_fields(fields, model_name, model_id):
     for field in fields:
         field['modelName'] = model_name
@@ -70,7 +96,6 @@ def prepare_view_fields(view_fields, view):
     for field in view_fields:
         field['view'] = view
     return view_fields
-
 
 def create_field(field):
     print(f"Creating field: {field['name']} (type={field.get('type')})")
@@ -88,7 +113,6 @@ def create_field(field):
     field_name = data['createModelField']['name']
     print(f"✅ Field created: {field_name} with id - {field_id}")
     return field_id
-
 
 def create_tab(tab):
     # print(f"Creating tab: {tab['name']}")
@@ -158,7 +182,8 @@ def main():
         print(f"\nProcessing file: {filepath}")
         data = load_json(filepath)
         model_name = data['name']
-        model_id = create_model(data)
+        is_user_mod = is_user_model(model_name)
+        model_id = is_user_mod and USER_MODEL_ID or create_model(data)
 
         prepared = prepare_fields(data.get('fields', []), model_name, model_id)
         immediate = [f for f in prepared if f.get('type') not in ('relationship', 'virtual')]
