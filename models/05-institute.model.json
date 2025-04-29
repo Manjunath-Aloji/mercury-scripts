@@ -1,0 +1,137 @@
+
+{
+    "$schema": "./01-model.schema.json",
+    "name": "Institute",
+    "label": "Institute",
+    "description": "Institute model",
+    "fields": [
+        {
+            "name": "name",
+            "label": "name",
+            "type": "string"
+        },
+        {
+            "name": "description",
+            "label": "description",
+            "type": "string"
+        },
+        {
+            "name": "address",
+            "label": "address",
+            "type": "relationship",
+            "ref": "Address"
+        },
+        {
+            "name": "principal",
+            "label": "principal",
+            "type": "relationship",
+            "ref": "User"
+        },
+        {
+            "name": "years_of_excellence",
+            "label": "years_of_excellence",
+            "type": "number"
+        },
+        {
+            "name": "mobile",
+            "label": "mobile",
+            "type": "string"
+        },
+        {
+            "name": "phone",
+            "label": "phone",
+            "type": "string"
+        },
+        {
+            "name": "email",
+            "label": "email",
+            "type": "string"
+        },
+        {
+            "name": "website",
+            "label": "website",
+            "type": "string"
+        },
+        {
+            "name": "logo",
+            "label": "logo",
+            "type": "relationship",
+            "ref": "Upload_File"
+        },
+        {
+            "name": "banner",
+            "label": "banner",
+            "type": "relationship",
+            "ref": "Upload_File"
+        },
+        {
+            "name": "principal_sign",
+            "label": "principal_sign",
+            "type": "relationship",
+            "ref": "Upload_File"
+        },
+        {
+            "name": "is_active",
+            "label": "is_active",
+            "type": "boolean"
+        }
+    ],
+    "create_tab": true,
+    "tab_input": {
+        "icon": "Landmark",
+        "label": "Institute",
+        "order": 4
+    },
+    "create_view": true,
+    "view_input": {
+        "name": "Institute View",
+        "description": "Institute model View",
+        "view_fields": [
+            {
+                "field_name": "name",
+                "order": 1,
+                "visible": true
+            },
+            {
+                "field_name": "description",
+                "order": 2,
+                "visible": true
+            },
+            {
+                "field_name": "address",
+                "order": 3,
+                "visible": true
+            },
+            {
+                "field_name": "principal",
+                "order": 4,
+                "visible": true
+            },
+            {
+                "field_name": "years_of_excellence",
+                "order": 5,
+                "visible": true
+            },
+            {
+                "field_name": "mobile",
+                "order": 6,
+                "visible": true
+            },
+            {
+                "field_name": "phone",
+                "order": 7,
+                "visible": true
+            },
+            {
+                "field_name": "email",
+                "order": 8,
+                "visible": true
+            },
+            {
+                "field_name": "website",
+                "order": 9,
+                "visible": true
+            }
+        ]
+    }
+}

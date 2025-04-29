@@ -1,0 +1,82 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "name": { "type": "string" },
+    "label": { "type": "string" },
+    "description": { "type": "string" },
+    "recordKey": { "type": "string" },
+    "managed": { "type": "boolean" },
+    "fields": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "label": { "type": "string" },
+          "type": {
+            "type": "string",
+            "enum": [
+              "string",
+              "number",
+              "boolean",
+              "date",
+              "float",
+              "virtual",
+              "enum",
+              "relationship"
+            ]
+          },
+          "enumType": { "type": "string", "enum": ["number", "string"] },
+          "enumValues": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "managed": { "type": "boolean" },
+          "many": { "type": "boolean" },
+          "ref": { "type": "string" },
+          "localField": { "type": "string" },
+          "foreignField": { "type": "string" },
+          "managedBy": { "type": "string" },
+          "default": { "type": ["string", "boolean"] },
+          "immutable": { "type": "boolean" },
+          "required": { "type": "boolean" },
+          "unique": { "type": "boolean" }
+        },
+        "required": ["name", "label", "type"]
+      }
+    },
+    "create_tab": { "type": "boolean" },
+    "tab_input": {
+      "type": "object",
+      "properties": {
+        "icon": { "type": "string" },
+        "label": { "type": "string" },
+        "order": { "type": "integer" }
+      },
+      "required": ["icon", "label", "order"]
+    },
+    "create_view": { "type": "boolean" },
+    "view_input": {
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "description": { "type": "string" },
+        "view_fields" : {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "field_name": { "type": "string" },
+              "order": { "type": "integer" },
+              "visible": { "type": "boolean" }
+            },
+            "required": ["field_name", "order", "visible"]
+          }
+        }
+      },
+      "required": ["name"]
+    }
+  },
+  "required": ["name", "label"]
+}

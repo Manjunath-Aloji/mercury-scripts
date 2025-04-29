@@ -1,0 +1,95 @@
+{
+    "$schema": "./01-model.schema.json",
+    "name": "User",
+    "label": "User",
+    "description": "User model",
+    "fields": [
+        {
+            "name": "first_name",
+            "label": "first_name",
+            "type": "string",
+            "required": true
+        },
+        {
+            "name": "last_name",
+            "label": "last_name",
+            "type": "string",
+            "required": true
+        },
+        {
+            "name": "user_name",
+            "label": "user_name",
+            "type": "string",
+            "required": true
+        },
+        {
+            "name": "phone",
+            "label": "phone",
+            "type": "string"
+        },
+        {
+            "name": "email",
+            "label": "email",
+            "type": "string",
+            "required": true
+        },
+        {
+            "name": "password",
+            "label": "password",
+            "type": "string",
+            "required": true
+        },
+        {
+            "name": "role",
+            "label": "role",
+            "type": "enum",
+            "enumType": "string",
+            "enumValues": ["SUPER_ADMIN", "ADMIN", "STAFF", "STUDENT", "PARENT", "WARDEN"],
+            "required": true
+        },
+        {
+            "name": "gender",
+            "label": "gender",
+            "type": "enum",
+            "enumType": "string",
+            "enumValues": ["MALE", "FEMALE", "OTHER"],
+            "required": true
+        },
+        {
+            "name": "is_active",
+            "label": "is_active",
+            "type": "boolean"
+        },
+        {
+            "name" : "avatar",
+            "label" : "avatar",
+            "type" : "relationship",
+            "ref" : "Upload_File"
+        },
+        {
+            "name" : "address",
+            "label" : "address",
+            "type" : "relationship",
+            "ref" : "Address"
+        }
+    ],
+    "create_tab": true,
+    "tab_input": {
+        "icon": "ShieldUser",
+        "label": "User",
+        "order": 1
+    },
+    "create_view": true,
+    "view_input": {
+        "name": "User View",
+        "description": "User model View",
+        "view_fields": [
+            {"field_name": "first_name", "order": 1, "visible": true},
+            {"field_name": "last_name", "order": 2, "visible": true},
+            {"field_name": "user_name", "order": 3, "visible": true},
+            {"field_name": "phone", "order": 4, "visible": true},
+            {"field_name": "email", "order": 5, "visible": true},
+            {"field_name": "role", "order": 6, "visible": true}
+        ]
+    }
+}

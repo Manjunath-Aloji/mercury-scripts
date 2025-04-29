@@ -1,0 +1,71 @@
+{
+    "$schema": "./01-model.schema.json",
+    "name": "Address",
+    "label": "Address",
+    "description": "Address model",
+    "fields": [
+        {
+            "name": "address",
+            "label": "address",
+            "type": "string"
+        },
+        {
+            "name": "city",
+            "label": "city",
+            "type": "string"
+        },
+        {
+            "name": "state",
+            "label": "state",
+            "type": "string"
+        },
+        {
+            "name": "country",
+            "label": "country",
+            "type": "string"
+        },
+        {
+            "name": "zip_code",
+            "label": "zip_code",
+            "type": "string"
+        }
+    ],
+    "create_tab": true,
+    "tab_input": {
+        "icon": "MapPinHouse",
+        "label": "Address",
+        "order": 2
+    },
+    "create_view": true,
+    "view_input": {
+        "name": "Address View",
+        "description": "Address model View",
+        "view_fields": [
+            {
+                "field_name": "address",
+                "order": 1,
+                "visible": true
+            },
+            {
+                "field_name": "city",
+                "order": 2,
+                "visible": true
+            },
+            {
+                "field_name": "state",
+                "order": 3,
+                "visible": true
+            },
+            {
+                "field_name": "country",
+                "order": 4,
+                "visible": true
+            },
+            {
+                "field_name": "zip_code",
+                "order": 5,
+                "visible": true
+            }
+        ]
+    }
+}

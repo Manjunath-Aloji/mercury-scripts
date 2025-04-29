@@ -7,12 +7,87 @@ HEADERS = {
 }
 
 MODEL_FILES = [
-    'user-model.json',
-    'institute-model.json',
-    'class-model.json',
+    'models/01-user.model.json',
+    'models/02-address.model.json',
+    'models/03-file.model.json',
+    'models/04-admin.model.json',
+    'models/05-institute.model.json',
 ]
 
 USER_MODEL_ID = None
+FILE_MODEL_ID = None
+DEFAULT_PROFILE_ID = None
+
+def create_permission(profile_name, profile_id, model_name, model_id):
+    mutation = '''
+        mutation CreatePermission($input: PermissionInput!) {
+            createPermission(input: $input) {
+                id
+            }
+        }
+    '''
+    variables = {
+        "input": {
+            "profile": profile_id,
+            "model": model_id,
+            "profileName": profile_name,
+            "modelName": model_name,
+            "create": True,
+            "update": True,
+            "delete": True,
+            "read": True,
+            "fieldLevelAccess": False,
+        }
+    }
+    data = graphql_request(mutation, variables)
+    permission_id = data['createPermission']['id']
+    print(f"✅ Permissions created: with id - {permission_id} for model - {model_name}")
+    return permission_id
+
+def creteate_profile(profile_data):
+    global DEFAULT_PROFILE_ID
+    if DEFAULT_PROFILE_ID is None:
+        mutation = '''
+            mutation CreateProfile($input: ProfileInput!) {
+                createProfile(input: $input) {
+                    id,
+                    name
+                }
+            }
+        '''
+        variables = {"input": profile_data}
+        data = graphql_request(mutation, variables)
+        profile_id = data['createProfile']['id']
+        profile_name = data['createProfile']['name']
+        print(f"✅ Profile created: {profile_name} with id - {profile_id}")
+        DEFAULT_PROFILE_ID = profile_id
+    return DEFAULT_PROFILE_ID
+
+def is_file_model(model_name):
+    is_file_model = model_name in ['File', 'file', 'Files', 'files']
+    if is_file_model:
+        get_file_model_id()
+    return is_file_model
+
+def get_file_model_id():
+    global FILE_MODEL_ID
+    if FILE_MODEL_ID is None:
+
+        variables = {"where": {"name" : { "is": "File" }}}
+
+        mutation = '''
+            query ListModels($where: whereModelInput) {
+                listModels(where: $where) {
+                    docs {
+                        name
+                        id
+                    }
+                }
+            }
+        '''
+        data = graphql_request(mutation, variables)
+        FILE_MODEL_ID = data['listModels']['docs'][0]['id'] if data['listModels']['docs'] else None
+    return FILE_MODEL_ID
 
 def get_user_model_id():
     global USER_MODEL_ID
@@ -98,7 +173,7 @@ def prepare_view_fields(view_fields, view):
     return view_fields
 
 def create_field(field):
-    print(f"Creating field: {field['name']} (type={field.get('type')})")
+    # print(f"Creating field: {field['name']} (type={field.get('type')})")
     mutation = '''
     mutation CreateModelField($input: ModelFieldInput!) {
       createModelField(input: $input) {
@@ -177,13 +252,25 @@ def main():
     
     model_definitions = []
 
+    profile_data = load_json('profiles/default.profile.json')
+
+    print(f"\nCreating profile: {profile_data['name']}")
+    creteate_profile({'label': profile_data['label'], 'name': profile_data['name']})
     
     for filepath in MODEL_FILES:
         print(f"\nProcessing file: {filepath}")
         data = load_json(filepath)
         model_name = data['name']
         is_user_mod = is_user_model(model_name)
+        # is_file_mod = is_file_model(model_name)
         model_id = is_user_mod and USER_MODEL_ID or create_model(data)
+        # model_id = is_user_mod and USER_MODEL_ID or is_file_mod and FILE_MODEL_ID or create_model(data)
+
+        if is_user_mod and profile_data['name'] == 'SystemAdmin':
+            print("Skipping permission creation for SystemAdmin profile")
+        else:
+            # print(f"Creating Permission for model: {model_name}")
+            create_permission(profile_data['name'], DEFAULT_PROFILE_ID, model_name, model_id)
 
         prepared = prepare_fields(data.get('fields', []), model_name, model_id)
         immediate = [f for f in prepared if f.get('type') not in ('relationship', 'virtual')]
@@ -234,11 +321,11 @@ def main():
             field_id = create_field(field)
             field['field'] = field_id
 
-    print("\nCreating view fields...\n")
+    print("\nCreating Tabs and view fields...\n")
     for m in model_definitions:
         # print(m['create_tab'])
         if m['create_tab']:
-            print(f"\nCreating Tab for model: {m['model_name']}")
+            print(f"Creating Tab for model: {m['model_name']}")
             create_tab(m['tab_input'])
         # print(m['create_view'])
         if m['create_view']:

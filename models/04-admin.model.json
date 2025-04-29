@@ -1,0 +1,46 @@
+{
+    "$schema": "./01-model.schema.json",
+    "name": "Admin",
+    "label": "Admin",
+    "description": "Admin model",
+    "fields": [
+        {
+            "name": "user",
+            "type": "relationship",
+            "label": "User",
+            "ref": "User",
+            "required": true
+        },
+        {
+            "name": "institute",
+            "type": "relationship",
+            "label": "Institute",
+            "ref": "Institute",
+            "required": true
+        }
+    ],
+    "create_tab": true,
+    "tab_input": {
+        "label": "Admin",
+        "icon": "UserLock",
+        "order": 3
+    },
+    "create_view": true,
+    "view_input": {
+        "name": "Admin View",
+        "description": "Admin model View",
+        "view_fields": [
+            {
+                "field_name": "user",
+                "visible": true,
+                "order": 1
+            },
+            {
+                "field_name": "institute",
+                "order": 2,
+                "visible": true
+            }
+        ]
+    }
+    
+}

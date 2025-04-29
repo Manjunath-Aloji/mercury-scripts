@@ -1,0 +1,35 @@
+{
+    "$schema": "./01-model.schema.json",
+    "name": "Upload_File",
+    "label": "Upload_File",
+    "description": "File model",
+    "fields": [
+        {
+            "name": "file_name",
+            "label": "file_name",
+            "type": "string",
+            "required": true
+        },
+        {
+            "name": "description",
+            "label": "description",
+            "type": "string"
+        },
+        {
+            "name": "file_type",
+            "label": "file_type",
+            "type": "string",
+            "required": true
+        },
+        {
+            "name": "size",
+            "label": "size",
+            "type": "number"
+        },
+        {
+            "name": "url",
+            "label": "url",
+            "type": "string"
+        }
+    ]
+}
