@@ -1,0 +1,41 @@
+{
+  "$schema": "./model.schema.json",
+  "name": "Institute",
+  "label": "Institute",
+  "description": "Institute model",
+  "fields": [
+    {
+      "name": "name",
+      "label": "name",
+      "type": "string"
+    },
+    {
+      "name": "website",
+      "label": "website",
+      "type": "string"
+    }
+  ],
+  "create_tab": true,
+  "tab_input": {
+    "icon": "fa-solid fa-building",
+    "label": "Institute",
+    "order": 1
+  },
+  "create_view": true,
+  "view_input": {
+    "name": "Institute",
+    "description": "Institute model View",
+    "view_fields": [
+        {
+            "field_name": "name",
+            "order": 1,
+            "visible": true
+        },
+        {
+            "field_name": "website",
+            "order": 2,
+            "visible": true
+        }
+    ]
+  }
+}

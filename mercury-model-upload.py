@@ -66,6 +66,11 @@ def prepare_fields(fields, model_name, model_id):
         field['model'] = model_id
     return fields
 
+def prepare_view_fields(view_fields, view):
+    for field in view_fields:
+        field['view'] = view
+    return view_fields
+
 
 def create_field(field):
     print(f"Creating field: {field['name']} (type={field.get('type')})")
@@ -85,6 +90,65 @@ def create_field(field):
     return field_id
 
 
+def create_tab(tab):
+    # print(f"Creating tab: {tab['name']}")
+    mutation = '''
+    mutation CreateTab($input: TabInput!) {
+      createTab(input: $input) {
+        id,
+        label
+      }
+    }
+    '''
+    variables = {"input": tab}
+    data = graphql_request(mutation, variables)
+    tab_id = data['createTab']['id']
+    tab_name = data['createTab']['label']
+    print(f"✅ Tab created: {tab_name} with id - {tab_id}")
+    return tab_id
+
+def create_view(view):
+    # print(f"Creating view: {view['name']}")
+    mutation = '''
+    mutation CreateView($input: ViewInput!) {
+      createView(input: $input) {
+        id,
+        name
+      }
+    }
+    '''
+    variables = {"input": view}
+    data = graphql_request(mutation, variables)
+    view_id = data['createView']['id']
+    view_name = data['createView']['name']
+    print(f"✅ View created: {view_name} with id - {view_id}")
+    return view_id
+
+def create_view_fields(view_field):
+    # print(f"Creating view field: {view_field['name']}")
+    mutation = '''
+    mutation CreateViewField($input: ViewFieldInput!) {
+      createViewField(input: $input) {
+        id
+      }
+    }
+    '''
+    variables = {"input": view_field}
+    data = graphql_request(mutation, variables)
+    view_field_id = data['createViewField']['id']
+    print(f"✅ View field created: {view_field_id}")
+    return view_field_id
+
+def update_view_fields(view_fields, model_fields):
+    for view_field in view_fields:
+        view_field_name = view_field['field_name']
+        for model_field in model_fields:
+            if view_field_name == model_field['name']:
+                view_field['field'] = model_field['field']
+                del view_field['field_name']
+                break
+    return view_fields
+
 def main():
     
     model_definitions = []
@@ -100,22 +164,63 @@ def main():
         immediate = [f for f in prepared if f.get('type') not in ('relationship', 'virtual')]
         dependent = [f for f in prepared if f.get('type') in ('relationship', 'virtual')]
 
+        model_tab = data.get('tab_input', {})
+        if model_tab:
+            model_tab['model'] = model_id
+
+        view_input = data.get('view_input', {})
+
+        temp_view_field = view_input.get('view_fields', [])
+
+        is_create_view = data.get('create_view', False)
+        is_create_tab = data.get('create_tab', False)
+
+        if is_create_view:
+            del view_input['view_fields']
+
+        view_id = ""
+        if is_create_view:
+            view_input['model'] = model_id
+            view_input['modelName'] = model_name
+            view_id = create_view(view_input)
+
+        view_fields = prepare_view_fields(temp_view_field, view_id)
+
         model_definitions.append({
             'model_name': model_name,
             'model_id': model_id,
             'immediate_fields': immediate,
-            'dependent_fields': dependent
+            'dependent_fields': dependent,
+            'create_tab': is_create_tab,
+            'tab_input': model_tab,
+            'create_view' : is_create_view,
+            'view_fields' : view_fields
         })
 
     print("\nCreating immediate fields across all models...\n")
     for m in model_definitions:
         for field in m['immediate_fields']:
-            create_field(field)
+            field_id = create_field(field)
+            field['field'] = field_id
 
     print("\nCreating dependent relationship/virtual fields...\n")
     for m in model_definitions:
         for field in m['dependent_fields']:
-            create_field(field)
+            field_id = create_field(field)
+            field['field'] = field_id
+
+    print("\nCreating view fields...\n")
+    for m in model_definitions:
+        # print(m['create_tab'])
+        if m['create_tab']:
+            print(f"\nCreating Tab for model: {m['model_name']}")
+            create_tab(m['tab_input'])
+        # print(m['create_view'])
+        if m['create_view']:
+            print(f"\nCreating View for model: {m['model_name']}")
+            updated_view_fields = update_view_fields(m['view_fields'], [f for f in m['immediate_fields'] + m['dependent_fields']])
+            for field in updated_view_fields:
+                create_view_fields(field)
 
 if __name__ == "__main__":
     main()

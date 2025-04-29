@@ -45,6 +45,37 @@
         },
         "required": ["name", "label", "type"]
       }
+    },
+    "create_tab": { "type": "boolean" },
+    "tab_input": {
+      "type": "object",
+      "properties": {
+        "icon": { "type": "string" },
+        "label": { "type": "string" },
+        "order": { "type": "integer" }
+      },
+      "required": ["icon", "label", "order"]
+    },
+    "create_view": { "type": "boolean" },
+    "view_input": {
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "description": { "type": "string" },
+        "view_fields" : {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "field_name": { "type": "string" },
+              "order": { "type": "integer" },
+              "visible": { "type": "boolean" }
+            },
+            "required": ["field_name", "order", "visible"]
+          }
+        }
+      },
+      "required": ["name"]
     }
   },
   "required": ["name", "label"]

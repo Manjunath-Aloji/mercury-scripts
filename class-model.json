@@ -1,0 +1,24 @@
+{
+    "$schema": "./model.schema.json",
+    "name": "Class",
+    "label": "Class",
+    "description": "Class model",
+    "fields": [
+        {
+            "name": "name",
+            "label": "name",
+            "type": "string"
+        },
+        {
+            "name": "description",
+            "label": "description",
+            "type": "string"
+        },
+        {
+            "name": "institute",
+            "label": "institute",
+            "type": "relationship",
+            "ref": "Institute"
+        }
+    ]
+}
