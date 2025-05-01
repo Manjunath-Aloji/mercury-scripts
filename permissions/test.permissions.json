@@ -1,0 +1,10 @@
+{
+    "$schema": "./permission.schema.json",
+    "profileName": "STUDENT",
+    "permissions": [
+        {"modelName": "Student" , "create": true, "update": true, "delete": true, "read": true, "fieldLevelAccess": true},
+        {"modelName": "Parent" , "create": false, "update": false, "delete": false, "read": false, "fieldLevelAccess": false},
+        {"modelName": "Admin"  , "create": false, "update": false, "delete": false, "read": false, "fieldLevelAccess": false},
+        {"modelName": "Teacher", "create": false, "update": false, "delete": false, "read": false, "fieldLevelAccess": false}
+    ]
+}

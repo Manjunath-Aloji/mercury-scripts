@@ -1,0 +1,22 @@
+{
+    "$schema": "./permission.schema.json",
+    "profileName": "SUPER_ADMIN",
+    "permissions": [
+        {"modelName": "User" , "create": true, "update": true, "delete": true, "read": true, "fieldLevelAccess": false},
+        {"modelName": "Address" , "create": true, "update": true, "delete": true, "read": true, "fieldLevelAccess": false},
+        {"modelName": "Upload_File" , "create": true, "update": true, "delete": true, "read": true, "fieldLevelAccess": false},
+        {"modelName": "Institute" , "create": true, "update": true, "delete": true, "read": true, "fieldLevelAccess": false},
+        {"modelName": "Class" , "create": true, "update": true, "delete": true, "read": true, "fieldLevelAccess": false},
+        {"modelName": "Section" , "create": true, "update": true, "delete": true, "read": true, "fieldLevelAccess": false},
+        {"modelName": "Hostel" , "create": true, "update": true, "delete": true, "read": true, "fieldLevelAccess": false},
+        {"modelName": "Student" , "create": true, "update": true, "delete": true, "read": true, "fieldLevelAccess": false},
+        {"modelName": "Designation" , "create": true, "update": true, "delete": true, "read": true, "fieldLevelAccess": false},
+        {"modelName": "Admin"  , "create": true, "update": true, "delete": true, "read": true, "fieldLevelAccess": false},
+        {"modelName": "Staff", "create": true, "update": true, "delete": true, "read": true, "fieldLevelAccess": false},
+        {"modelName": "Warden", "create": true, "update": true, "delete": true, "read": true, "fieldLevelAccess": false},
+        {"modelName": "Parent" , "create": true, "update": true, "delete": true, "read": true, "fieldLevelAccess": false},
+        {"modelName": "Outing_Reason" , "create": true, "update": true, "delete": true, "read": true, "fieldLevelAccess": false},
+        {"modelName": "Gate_Pass" , "create": true, "update": true, "delete": true, "read": true, "fieldLevelAccess": false},
+        {"modelName": "Id_Card_Config" , "create": true, "update": true, "delete": true, "read": true, "fieldLevelAccess": false}   
+    ]
+}

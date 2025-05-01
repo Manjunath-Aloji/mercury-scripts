@@ -1,34 +1,44 @@
 {
-    "$schema": "http://json-schema.org/draft-07/schema#",
-    "type": "object",
-    "properties": {
-        "profileName" : {
-            "type": "string",
-            "description": "Profile name"
-        },
-        "modelName" : {
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "profileName": {
+      "type": "string",
+      "description": "Profile name"
+    },
+    "permissions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "modelName": {
             "type": "string",
             "description": "Model name"
-        },
-        "create" : {
+          },
+          "create": {
             "type": "boolean",
             "description": "Create permission"
-        },
-        "update" : {
+          },
+          "update": {
             "type": "boolean",
             "description": "Update permission"
-        },
-        "delete" : {
+          },
+          "delete": {
             "type": "boolean",
             "description": "Delete permission"
-        },
-        "read" : {
+          },
+          "read": {
             "type": "boolean",
             "description": "Read permission"
-        },
-        "fieldLevelAccess" : {
+          },
+          "fieldLevelAccess": {
             "type": "boolean",
             "description": "Field level access permission"
-        }
+          }
+        },
+        "required": ["modelName", "create", "update", "delete", "read", "fieldLevelAccess"]
+      }
     }
+  },
+  "required": ["profileName", "permissions"]
 }
